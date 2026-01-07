@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
+	"strings"
 )
 
 // OpenCodeAgent runs code reviews using the OpenCode CLI
@@ -46,7 +47,7 @@ func (a *OpenCodeAgent) Review(ctx context.Context, repoPath, commitSHA, prompt 
 		return "", fmt.Errorf("opencode failed: %w\nstderr: %s", err, stderr.String())
 	}
 
-	output := stdout.String()
+	output := strings.TrimSpace(stdout.String())
 	if len(output) == 0 {
 		return "No review output generated", nil
 	}
